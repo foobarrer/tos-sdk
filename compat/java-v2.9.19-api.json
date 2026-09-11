@@ -1,0 +1,1339 @@
+{
+  "schemaVersion": 1,
+  "upstream": {
+    "project": "volcengine/ve-tos-java-sdk",
+    "version": "2.9.19",
+    "commit": "cd82b2345dbe0c3c15ebee4865ca37cae343512f",
+    "source": "https://github.com/volcengine/ve-tos-java-sdk/blob/cd82b2345dbe0c3c15ebee4865ca37cae343512f/src/main/java/com/volcengine/tos/TOSV2.java",
+    "sourceSha256": "2597622dbdc9544bf22d431602368dd506bde81a392f9cac6f3f98d885af79fd"
+  },
+  "summary": {
+    "declarationCount": 165,
+    "uniqueMethodCount": 161,
+    "completeMethodCount": 116,
+    "partialDeclarationCount": 2,
+    "missingDeclarationCount": 47
+  },
+  "declarations": [
+    {
+      "name": "createBucket",
+      "returnType": "CreateBucketV2Output",
+      "parameters": "String bucket",
+      "category": "bucket",
+      "rustMethod": "create_bucket",
+      "status": "complete"
+    },
+    {
+      "name": "createBucket",
+      "returnType": "CreateBucketV2Output",
+      "parameters": "CreateBucketV2Input input",
+      "category": "bucket",
+      "rustMethod": "create_bucket",
+      "status": "complete"
+    },
+    {
+      "name": "headBucket",
+      "returnType": "HeadBucketV2Output",
+      "parameters": "HeadBucketV2Input input",
+      "category": "bucket",
+      "rustMethod": "head_bucket",
+      "status": "complete"
+    },
+    {
+      "name": "doesBucketExist",
+      "returnType": "boolean",
+      "parameters": "DoesBucketExistInput input",
+      "category": "bucket",
+      "rustMethod": "does_bucket_exist",
+      "status": "complete"
+    },
+    {
+      "name": "doesObjectExist",
+      "returnType": "boolean",
+      "parameters": "DoesObjectExistInput input",
+      "category": "object",
+      "rustMethod": "does_object_exist",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucket",
+      "returnType": "DeleteBucketOutput",
+      "parameters": "DeleteBucketInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket",
+      "status": "complete"
+    },
+    {
+      "name": "listBuckets",
+      "returnType": "ListBucketsV2Output",
+      "parameters": "ListBucketsV2Input input",
+      "category": "bucket",
+      "rustMethod": "list_buckets",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketPolicy",
+      "returnType": "PutBucketPolicyOutput",
+      "parameters": "String bucket, String policy",
+      "category": "bucket",
+      "rustMethod": "put_bucket_policy",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketPolicy",
+      "returnType": "PutBucketPolicyOutput",
+      "parameters": "PutBucketPolicyInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_policy",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketPolicy",
+      "returnType": "GetBucketPolicyOutput",
+      "parameters": "String bucket",
+      "category": "bucket",
+      "rustMethod": "get_bucket_policy",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketPolicy",
+      "returnType": "GetBucketPolicyOutput",
+      "parameters": "GetBucketPolicyInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_policy",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketPolicy",
+      "returnType": "DeleteBucketPolicyOutput",
+      "parameters": "String bucket",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_policy",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketPolicy",
+      "returnType": "DeleteBucketPolicyOutput",
+      "parameters": "DeleteBucketPolicyInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_policy",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketCORS",
+      "returnType": "PutBucketCORSOutput",
+      "parameters": "PutBucketCORSInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_cors",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketCORS",
+      "returnType": "GetBucketCORSOutput",
+      "parameters": "GetBucketCORSInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_cors",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketCORS",
+      "returnType": "DeleteBucketCORSOutput",
+      "parameters": "DeleteBucketCORSInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_cors",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketStorageClass",
+      "returnType": "PutBucketStorageClassOutput",
+      "parameters": "PutBucketStorageClassInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_storage_class",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketLocation",
+      "returnType": "GetBucketLocationOutput",
+      "parameters": "GetBucketLocationInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_location",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketLifecycle",
+      "returnType": "PutBucketLifecycleOutput",
+      "parameters": "PutBucketLifecycleInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_lifecycle",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketLifecycle",
+      "returnType": "GetBucketLifecycleOutput",
+      "parameters": "GetBucketLifecycleInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_lifecycle",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketLifecycle",
+      "returnType": "DeleteBucketLifecycleOutput",
+      "parameters": "DeleteBucketLifecycleInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_lifecycle",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketMirrorBack",
+      "returnType": "PutBucketMirrorBackOutput",
+      "parameters": "PutBucketMirrorBackInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_mirror_back",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketMirrorBack",
+      "returnType": "GetBucketMirrorBackOutput",
+      "parameters": "GetBucketMirrorBackInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_mirror_back",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketMirrorBack",
+      "returnType": "DeleteBucketMirrorBackOutput",
+      "parameters": "DeleteBucketMirrorBackInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_mirror_back",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketReplication",
+      "returnType": "PutBucketReplicationOutput",
+      "parameters": "PutBucketReplicationInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_replication",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketReplication",
+      "returnType": "GetBucketReplicationOutput",
+      "parameters": "GetBucketReplicationInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_replication",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketReplication",
+      "returnType": "DeleteBucketReplicationOutput",
+      "parameters": "DeleteBucketReplicationInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_replication",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketVersioning",
+      "returnType": "PutBucketVersioningOutput",
+      "parameters": "PutBucketVersioningInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_versioning",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketVersioning",
+      "returnType": "GetBucketVersioningOutput",
+      "parameters": "GetBucketVersioningInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_versioning",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketWebsite",
+      "returnType": "PutBucketWebsiteOutput",
+      "parameters": "PutBucketWebsiteInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_website",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketWebsite",
+      "returnType": "GetBucketWebsiteOutput",
+      "parameters": "GetBucketWebsiteInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_website",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketWebsite",
+      "returnType": "DeleteBucketWebsiteOutput",
+      "parameters": "DeleteBucketWebsiteInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_website",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketNotification",
+      "returnType": "PutBucketNotificationOutput",
+      "parameters": "PutBucketNotificationInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_notification",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketNotification",
+      "returnType": "GetBucketNotificationOutput",
+      "parameters": "GetBucketNotificationInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_notification",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketNotificationType2",
+      "returnType": "PutBucketNotificationType2Output",
+      "parameters": "PutBucketNotificationType2Input input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_notification_type2",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketNotificationType2",
+      "returnType": "GetBucketNotificationType2Output",
+      "parameters": "GetBucketNotificationType2Input input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_notification_type2",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketCustomDomain",
+      "returnType": "PutBucketCustomDomainOutput",
+      "parameters": "PutBucketCustomDomainInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_custom_domain",
+      "status": "complete"
+    },
+    {
+      "name": "listBucketCustomDomain",
+      "returnType": "ListBucketCustomDomainOutput",
+      "parameters": "ListBucketCustomDomainInput input",
+      "category": "bucket",
+      "rustMethod": "list_bucket_custom_domain",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketCustomDomain",
+      "returnType": "DeleteBucketCustomDomainOutput",
+      "parameters": "DeleteBucketCustomDomainInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_custom_domain",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketRealTimeLog",
+      "returnType": "PutBucketRealTimeLogOutput",
+      "parameters": "PutBucketRealTimeLogInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_real_time_log",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketRealTimeLog",
+      "returnType": "GetBucketRealTimeLogOutput",
+      "parameters": "GetBucketRealTimeLogInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_real_time_log",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketRealTimeLog",
+      "returnType": "DeleteBucketRealTimeLogOutput",
+      "parameters": "DeleteBucketRealTimeLogInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_real_time_log",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketACL",
+      "returnType": "PutBucketACLOutput",
+      "parameters": "PutBucketACLInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_acl",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketACL",
+      "returnType": "GetBucketACLOutput",
+      "parameters": "GetBucketACLInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_acl",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketRename",
+      "returnType": "PutBucketRenameOutput",
+      "parameters": "PutBucketRenameInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_rename",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketRename",
+      "returnType": "GetBucketRenameOutput",
+      "parameters": "GetBucketRenameInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_rename",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketRename",
+      "returnType": "DeleteBucketRenameOutput",
+      "parameters": "DeleteBucketRenameInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_rename",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketEncryption",
+      "returnType": "PutBucketEncryptionOutput",
+      "parameters": "PutBucketEncryptionInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_encryption",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketEncryption",
+      "returnType": "GetBucketEncryptionOutput",
+      "parameters": "GetBucketEncryptionInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_encryption",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketEncryption",
+      "returnType": "DeleteBucketEncryptionOutput",
+      "parameters": "DeleteBucketEncryptionInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_encryption",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketTagging",
+      "returnType": "PutBucketTaggingOutput",
+      "parameters": "PutBucketTaggingInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_tagging",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketTagging",
+      "returnType": "GetBucketTaggingOutput",
+      "parameters": "GetBucketTaggingInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_tagging",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketTagging",
+      "returnType": "DeleteBucketTaggingOutput",
+      "parameters": "DeleteBucketTaggingInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_tagging",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketInventory",
+      "returnType": "PutBucketInventoryOutput",
+      "parameters": "PutBucketInventoryInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_inventory",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketInventory",
+      "returnType": "GetBucketInventoryOutput",
+      "parameters": "GetBucketInventoryInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_inventory",
+      "status": "complete"
+    },
+    {
+      "name": "listBucketInventory",
+      "returnType": "ListBucketInventoryOutput",
+      "parameters": "ListBucketInventoryInput input",
+      "category": "bucket",
+      "rustMethod": "list_bucket_inventory",
+      "status": "complete"
+    },
+    {
+      "name": "deleteBucketInventory",
+      "returnType": "DeleteBucketInventoryOutput",
+      "parameters": "DeleteBucketInventoryInput input",
+      "category": "bucket",
+      "rustMethod": "delete_bucket_inventory",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketInfo",
+      "returnType": "GetBucketInfoOutput",
+      "parameters": "GetBucketInfoInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_info",
+      "status": "complete"
+    },
+    {
+      "name": "getObject",
+      "returnType": "GetObjectV2Output",
+      "parameters": "GetObjectV2Input input",
+      "category": "object",
+      "rustMethod": "get_object",
+      "status": "complete"
+    },
+    {
+      "name": "getObjectToFile",
+      "returnType": "GetObjectToFileOutput",
+      "parameters": "GetObjectToFileInput input",
+      "category": "object",
+      "rustMethod": "get_object_to_file",
+      "status": "complete"
+    },
+    {
+      "name": "getFileStatus",
+      "returnType": "GetFileStatusOutput",
+      "parameters": "GetFileStatusInput input",
+      "category": "object",
+      "rustMethod": "get_file_status",
+      "status": "complete"
+    },
+    {
+      "name": "uploadFile",
+      "returnType": "UploadFileV2Output",
+      "parameters": "UploadFileV2Input input",
+      "category": "object",
+      "rustMethod": "upload",
+      "status": "partial"
+    },
+    {
+      "name": "downloadFile",
+      "returnType": "DownloadFileOutput",
+      "parameters": "DownloadFileInput input",
+      "category": "object",
+      "rustMethod": "download",
+      "status": "partial"
+    },
+    {
+      "name": "resumableCopyObject",
+      "returnType": "ResumableCopyObjectOutput",
+      "parameters": "ResumableCopyObjectInput input",
+      "category": "object",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "headObject",
+      "returnType": "HeadObjectV2Output",
+      "parameters": "HeadObjectV2Input input",
+      "category": "object",
+      "rustMethod": "head_object",
+      "status": "complete"
+    },
+    {
+      "name": "deleteObject",
+      "returnType": "DeleteObjectOutput",
+      "parameters": "DeleteObjectInput input",
+      "category": "object",
+      "rustMethod": "delete_object",
+      "status": "complete"
+    },
+    {
+      "name": "deleteMultiObjects",
+      "returnType": "DeleteMultiObjectsV2Output",
+      "parameters": "DeleteMultiObjectsV2Input input",
+      "category": "object",
+      "rustMethod": "delete_multi_objects",
+      "status": "complete"
+    },
+    {
+      "name": "putObject",
+      "returnType": "PutObjectOutput",
+      "parameters": "PutObjectInput input",
+      "category": "object",
+      "rustMethod": "put_object",
+      "status": "complete"
+    },
+    {
+      "name": "putObjectFromFile",
+      "returnType": "PutObjectFromFileOutput",
+      "parameters": "PutObjectFromFileInput input",
+      "category": "object",
+      "rustMethod": "put_object_from_file",
+      "status": "complete"
+    },
+    {
+      "name": "appendObject",
+      "returnType": "AppendObjectOutput",
+      "parameters": "AppendObjectInput input",
+      "category": "object",
+      "rustMethod": "append_object",
+      "status": "complete"
+    },
+    {
+      "name": "setObjectMeta",
+      "returnType": "SetObjectMetaOutput",
+      "parameters": "SetObjectMetaInput input",
+      "category": "object",
+      "rustMethod": "set_object_meta",
+      "status": "complete"
+    },
+    {
+      "name": "setObjectTime",
+      "returnType": "SetObjectTimeOutput",
+      "parameters": "SetObjectTimeInput input",
+      "category": "object",
+      "rustMethod": "set_object_time",
+      "status": "complete"
+    },
+    {
+      "name": "setObjectExpires",
+      "returnType": "SetObjectExpiresOutput",
+      "parameters": "SetObjectExpiresInput input",
+      "category": "object",
+      "rustMethod": "set_object_expires",
+      "status": "complete"
+    },
+    {
+      "name": "listObjects",
+      "returnType": "ListObjectsV2Output",
+      "parameters": "ListObjectsV2Input input",
+      "category": "object",
+      "rustMethod": "list_objects",
+      "status": "complete"
+    },
+    {
+      "name": "listObjectsType2",
+      "returnType": "ListObjectsType2Output",
+      "parameters": "ListObjectsType2Input input",
+      "category": "object",
+      "rustMethod": "list_objects_type2",
+      "status": "complete"
+    },
+    {
+      "name": "listObjectVersions",
+      "returnType": "ListObjectVersionsV2Output",
+      "parameters": "ListObjectVersionsV2Input input",
+      "category": "object",
+      "rustMethod": "list_object_versions",
+      "status": "complete"
+    },
+    {
+      "name": "copyObject",
+      "returnType": "CopyObjectV2Output",
+      "parameters": "CopyObjectV2Input input",
+      "category": "object",
+      "rustMethod": "copy_object",
+      "status": "complete"
+    },
+    {
+      "name": "uploadPartCopy",
+      "returnType": "UploadPartCopyV2Output",
+      "parameters": "UploadPartCopyV2Input input",
+      "category": "multipart",
+      "rustMethod": "upload_part_copy",
+      "status": "complete"
+    },
+    {
+      "name": "putObjectAcl",
+      "returnType": "PutObjectACLOutput",
+      "parameters": "PutObjectACLInput input",
+      "category": "object",
+      "rustMethod": "put_object_acl",
+      "status": "complete"
+    },
+    {
+      "name": "getObjectAcl",
+      "returnType": "GetObjectACLV2Output",
+      "parameters": "GetObjectACLV2Input input",
+      "category": "object",
+      "rustMethod": "get_object_acl",
+      "status": "complete"
+    },
+    {
+      "name": "putObjectTagging",
+      "returnType": "PutObjectTaggingOutput",
+      "parameters": "PutObjectTaggingInput input",
+      "category": "object",
+      "rustMethod": "put_object_tagging",
+      "status": "complete"
+    },
+    {
+      "name": "getObjectTagging",
+      "returnType": "GetObjectTaggingOutput",
+      "parameters": "GetObjectTaggingInput input",
+      "category": "object",
+      "rustMethod": "get_object_tagging",
+      "status": "complete"
+    },
+    {
+      "name": "deleteObjectTagging",
+      "returnType": "DeleteObjectTaggingOutput",
+      "parameters": "DeleteObjectTaggingInput input",
+      "category": "object",
+      "rustMethod": "delete_object_tagging",
+      "status": "complete"
+    },
+    {
+      "name": "fetchObject",
+      "returnType": "FetchObjectOutput",
+      "parameters": "FetchObjectInput input",
+      "category": "object",
+      "rustMethod": "fetch_object",
+      "status": "complete"
+    },
+    {
+      "name": "putFetchTask",
+      "returnType": "PutFetchTaskOutput",
+      "parameters": "PutFetchTaskInput input",
+      "category": "object",
+      "rustMethod": "put_fetch_task",
+      "status": "complete"
+    },
+    {
+      "name": "getFetchTask",
+      "returnType": "GetFetchTaskOutput",
+      "parameters": "GetFetchTaskInput input",
+      "category": "object",
+      "rustMethod": "get_fetch_task",
+      "status": "complete"
+    },
+    {
+      "name": "createMultipartUpload",
+      "returnType": "CreateMultipartUploadOutput",
+      "parameters": "CreateMultipartUploadInput input",
+      "category": "multipart",
+      "rustMethod": "create_multipart_upload",
+      "status": "complete"
+    },
+    {
+      "name": "uploadPart",
+      "returnType": "UploadPartV2Output",
+      "parameters": "UploadPartV2Input input",
+      "category": "multipart",
+      "rustMethod": "upload_part",
+      "status": "complete"
+    },
+    {
+      "name": "uploadPartFromFile",
+      "returnType": "UploadPartFromFileOutput",
+      "parameters": "UploadPartFromFileInput input",
+      "category": "multipart",
+      "rustMethod": "upload_part_from_file",
+      "status": "complete"
+    },
+    {
+      "name": "completeMultipartUpload",
+      "returnType": "CompleteMultipartUploadV2Output",
+      "parameters": "CompleteMultipartUploadV2Input input",
+      "category": "multipart",
+      "rustMethod": "complete_multipart_upload",
+      "status": "complete"
+    },
+    {
+      "name": "abortMultipartUpload",
+      "returnType": "AbortMultipartUploadOutput",
+      "parameters": "AbortMultipartUploadInput input",
+      "category": "multipart",
+      "rustMethod": "abort_multipart_upload",
+      "status": "complete"
+    },
+    {
+      "name": "listParts",
+      "returnType": "ListPartsOutput",
+      "parameters": "ListPartsInput input",
+      "category": "other",
+      "rustMethod": "list_parts",
+      "status": "complete"
+    },
+    {
+      "name": "listMultipartUploads",
+      "returnType": "ListMultipartUploadsV2Output",
+      "parameters": "ListMultipartUploadsV2Input input",
+      "category": "multipart",
+      "rustMethod": "list_multipart_uploads",
+      "status": "complete"
+    },
+    {
+      "name": "renameObject",
+      "returnType": "RenameObjectOutput",
+      "parameters": "RenameObjectInput input",
+      "category": "object",
+      "rustMethod": "rename_object",
+      "status": "complete"
+    },
+    {
+      "name": "restoreObject",
+      "returnType": "RestoreObjectOutput",
+      "parameters": "RestoreObjectInput input",
+      "category": "object",
+      "rustMethod": "restore_object",
+      "status": "complete"
+    },
+    {
+      "name": "putSymlink",
+      "returnType": "PutSymlinkOutput",
+      "parameters": "PutSymlinkInput input",
+      "category": "object",
+      "rustMethod": "put_symlink",
+      "status": "complete"
+    },
+    {
+      "name": "getSymlink",
+      "returnType": "GetSymlinkOutput",
+      "parameters": "GetSymlinkInput input",
+      "category": "object",
+      "rustMethod": "get_symlink",
+      "status": "complete"
+    },
+    {
+      "name": "preSignedURL",
+      "returnType": "PreSignedURLOutput",
+      "parameters": "PreSignedURLInput input",
+      "category": "signing",
+      "rustMethod": "pre_signed_url",
+      "status": "complete"
+    },
+    {
+      "name": "preSignedPostSignature",
+      "returnType": "PreSignedPostSignatureOutput",
+      "parameters": "PreSignedPostSignatureInput input",
+      "category": "signing",
+      "rustMethod": "pre_signed_post_signature",
+      "status": "complete"
+    },
+    {
+      "name": "preSingedPolicyURL",
+      "returnType": "PreSingedPolicyURLOutput",
+      "parameters": "PreSingedPolicyURLInput input",
+      "category": "signing",
+      "rustMethod": "pre_signed_policy_url",
+      "status": "complete"
+    },
+    {
+      "name": "preSignedPolicyURL",
+      "returnType": "PreSignedPolicyURLOutput",
+      "parameters": "PreSignedPolicyURLInput input",
+      "category": "signing",
+      "rustMethod": "pre_signed_policy_url",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketType",
+      "returnType": "GetBucketTypeOutput",
+      "parameters": "GetBucketTypeInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_type",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketAccessMonitor",
+      "returnType": "PutBucketAccessMonitorOutput",
+      "parameters": "PutBucketAccessMonitorInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_access_monitor",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketAccessMonitor",
+      "returnType": "GetBucketAccessMonitorOutput",
+      "parameters": "GetBucketAccessMonitorInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_access_monitor",
+      "status": "complete"
+    },
+    {
+      "name": "putBucketTrash",
+      "returnType": "PutBucketTrashOutput",
+      "parameters": "PutBucketTrashInput input",
+      "category": "bucket",
+      "rustMethod": "put_bucket_trash",
+      "status": "complete"
+    },
+    {
+      "name": "getBucketTrash",
+      "returnType": "GetBucketTrashOutput",
+      "parameters": "GetBucketTrashInput input",
+      "category": "bucket",
+      "rustMethod": "get_bucket_trash",
+      "status": "complete"
+    },
+    {
+      "name": "putQosPolicy",
+      "returnType": "PutQosPolicyOutput",
+      "parameters": "PutQosPolicyInput input",
+      "category": "qos",
+      "rustMethod": "put_qos_policy",
+      "status": "complete"
+    },
+    {
+      "name": "getQosPolicy",
+      "returnType": "GetQosPolicyOutput",
+      "parameters": "GetQosPolicyInput input",
+      "category": "qos",
+      "rustMethod": "get_qos_policy",
+      "status": "complete"
+    },
+    {
+      "name": "deleteQosPolicy",
+      "returnType": "DeleteQosPolicyOutput",
+      "parameters": "DeleteQosPolicyInput input",
+      "category": "qos",
+      "rustMethod": "delete_qos_policy",
+      "status": "complete"
+    },
+    {
+      "name": "createAccessPoint",
+      "returnType": "CreateAccessPointOutput",
+      "parameters": "CreateAccessPointInput input",
+      "category": "access-point",
+      "rustMethod": "create_access_point",
+      "status": "complete"
+    },
+    {
+      "name": "getAccessPoint",
+      "returnType": "GetAccessPointOutput",
+      "parameters": "GetAccessPointInput input",
+      "category": "access-point",
+      "rustMethod": "get_access_point",
+      "status": "complete"
+    },
+    {
+      "name": "listAccessPoints",
+      "returnType": "ListAccessPointsOutput",
+      "parameters": "ListAccessPointsInput input",
+      "category": "access-point",
+      "rustMethod": "list_access_points",
+      "status": "complete"
+    },
+    {
+      "name": "deleteAccessPoint",
+      "returnType": "DeleteAccessPointOutput",
+      "parameters": "DeleteAccessPointInput input",
+      "category": "access-point",
+      "rustMethod": "delete_access_point",
+      "status": "complete"
+    },
+    {
+      "name": "listBindAcceleratorForAccessPoint",
+      "returnType": "ListBindAcceleratorForAccessPointOutput",
+      "parameters": "ListBindAcceleratorForAccessPointInput input",
+      "category": "access-point",
+      "rustMethod": "list_bind_accelerator_for_access_point",
+      "status": "complete"
+    },
+    {
+      "name": "listBindAccessPointForAccelerator",
+      "returnType": "ListBindAccessPointForAcceleratorOutput",
+      "parameters": "ListBindAccessPointForAcceleratorInput input",
+      "category": "access-point",
+      "rustMethod": "list_bind_access_point_for_accelerator",
+      "status": "complete"
+    },
+    {
+      "name": "changeCredentials",
+      "returnType": "void",
+      "parameters": "Credentials credentials",
+      "category": "client",
+      "rustMethod": "refresh_credentials",
+      "status": "complete"
+    },
+    {
+      "name": "changeRegionAndEndpoint",
+      "returnType": "void",
+      "parameters": "String region, String endpoint",
+      "category": "client",
+      "rustMethod": "refresh_endpoint_region",
+      "status": "complete"
+    },
+    {
+      "name": "changeTransportConfig",
+      "returnType": "void",
+      "parameters": "TransportConfig config",
+      "category": "client",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "refreshEndpointRegion",
+      "returnType": "boolean",
+      "parameters": "String endpoint, String region",
+      "category": "client",
+      "rustMethod": "refresh_endpoint_region",
+      "status": "complete"
+    },
+    {
+      "name": "refreshCredentials",
+      "returnType": "boolean",
+      "parameters": "String accessKey, String secretKey, String securityToken",
+      "category": "client",
+      "rustMethod": "refresh_credentials",
+      "status": "complete"
+    },
+    {
+      "name": "putAudioConvertTemplate",
+      "returnType": "PutAudioConvertTemplateOutput",
+      "parameters": "PutAudioConvertTemplateInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putVideoConvertTemplate",
+      "returnType": "PutVideoConvertTemplateOutput",
+      "parameters": "PutVideoConvertTemplateInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getVideoConvertTemplate",
+      "returnType": "GetVideoConvertTemplateOutput",
+      "parameters": "GetVideoConvertTemplateInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getAudioConvertTemplate",
+      "returnType": "GetAudioConvertTemplateOutput",
+      "parameters": "GetAudioConvertTemplateInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "deleteAudioConvertTemplate",
+      "returnType": "DeleteAudioConvertTemplateOutput",
+      "parameters": "DeleteAudioConvertTemplateInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "deleteVideoConvertTemplate",
+      "returnType": "DeleteVideoConvertTemplateOutput",
+      "parameters": "DeleteVideoConvertTemplateInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "listAudioConvertTemplates",
+      "returnType": "ListAudioConvertTemplatesOutput",
+      "parameters": "ListAudioConvertTemplatesInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "listVideoConvertTemplates",
+      "returnType": "ListVideoConvertTemplatesOutput",
+      "parameters": "ListVideoConvertTemplatesInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putWatermarkTemplate",
+      "returnType": "PutWatermarkTemplateOutput",
+      "parameters": "PutWatermarkTemplateInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getWatermarkTemplate",
+      "returnType": "GetWatermarkTemplateOutput",
+      "parameters": "GetWatermarkTemplateInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "listWatermarkTemplates",
+      "returnType": "ListWatermarkTemplatesOutput",
+      "parameters": "ListWatermarkTemplatesInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "deleteWatermarkTemplate",
+      "returnType": "DeleteWatermarkTemplateOutput",
+      "parameters": "DeleteWatermarkTemplateInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putConvertWorkflow",
+      "returnType": "PutConvertWorkflowOutput",
+      "parameters": "PutConvertWorkflowInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getConvertWorkflow",
+      "returnType": "GetConvertWorkflowOutput",
+      "parameters": "GetConvertWorkflowInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "deleteConvertWorkflow",
+      "returnType": "DeleteConvertWorkflowOutput",
+      "parameters": "DeleteConvertWorkflowInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "createVideoConvertJob",
+      "returnType": "CreateVideoConvertJobOutput",
+      "parameters": "CreateVideoConvertJobInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "createAsyncProcessTask",
+      "returnType": "CreateAsyncProcessTaskOutput",
+      "parameters": "CreateAsyncProcessTaskInput input",
+      "category": "other",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getVideoConvertJob",
+      "returnType": "GetVideoConvertJobOutput",
+      "parameters": "GetVideoConvertJobInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getAnimationJob",
+      "returnType": "GetAnimationJobOutput",
+      "parameters": "GetAnimationJobInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getAudioConvertJob",
+      "returnType": "GetAudioConvertJobOutput",
+      "parameters": "GetAudioConvertJobInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "createAudioConvertJob",
+      "returnType": "CreateAudioConvertJobOutput",
+      "parameters": "CreateAudioConvertJobInput input",
+      "category": "media",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "fileCompress",
+      "returnType": "FileCompressOutput",
+      "parameters": "FileCompressInput input",
+      "category": "compression",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "fileUncompress",
+      "returnType": "FileUncompressOutput",
+      "parameters": "FileUncompressInput input",
+      "category": "compression",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "pointCloudCompress",
+      "returnType": "PointCloudCompressOutput",
+      "parameters": "PointCloudCompressInput input",
+      "category": "compression",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getObjectSetEndpoint",
+      "returnType": "GetObjectSetEndpointOutput",
+      "parameters": "GetObjectSetEndpointInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putObjectSetLifecycle",
+      "returnType": "PutObjectSetLifecycleOutput",
+      "parameters": "PutObjectSetLifecycleInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getObjectSetLifecycle",
+      "returnType": "GetObjectSetLifecycleOutput",
+      "parameters": "GetObjectSetLifecycleInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "deleteObjectSetLifecycle",
+      "returnType": "DeleteObjectSetLifecycleOutput",
+      "parameters": "DeleteObjectSetLifecycleInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putObjectSetLifecycleByTag",
+      "returnType": "PutObjectSetLifecycleByTagOutput",
+      "parameters": "PutObjectSetLifecycleByTagInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getObjectSetLifecycleByTag",
+      "returnType": "GetObjectSetLifecycleByTagOutput",
+      "parameters": "GetObjectSetLifecycleByTagInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "deleteObjectSetLifecycleByTag",
+      "returnType": "DeleteObjectSetLifecycleByTagOutput",
+      "parameters": "DeleteObjectSetLifecycleByTagInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putBucketObjectSetConfiguration",
+      "returnType": "PutBucketObjectSetConfigurationOutput",
+      "parameters": "PutBucketObjectSetConfigurationInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getBucketObjectSetConfiguration",
+      "returnType": "GetBucketObjectSetConfigurationOutput",
+      "parameters": "GetBucketObjectSetConfigurationInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putObjectSet",
+      "returnType": "PutObjectSetOutput",
+      "parameters": "PutObjectSetInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "deleteObjectSet",
+      "returnType": "DeleteObjectSetOutput",
+      "parameters": "DeleteObjectSetInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "listObjectSets",
+      "returnType": "ListObjectSetsOutput",
+      "parameters": "ListObjectSetsInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getObjectSet",
+      "returnType": "GetObjectSetOutput",
+      "parameters": "GetObjectSetInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putObjectSetTagging",
+      "returnType": "PutObjectSetTaggingOutput",
+      "parameters": "PutObjectSetTaggingInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getObjectSetTagging",
+      "returnType": "GetObjectSetTaggingOutput",
+      "parameters": "GetObjectSetTaggingInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putObjectSetQuotaByTag",
+      "returnType": "PutObjectSetQuotaByTagOutput",
+      "parameters": "PutObjectSetQuotaByTagInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getObjectSetQuotaByTag",
+      "returnType": "GetObjectSetQuotaByTagOutput",
+      "parameters": "GetObjectSetQuotaByTagInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "deleteObjectSetQuotaByTag",
+      "returnType": "DeleteObjectSetQuotaByTagOutput",
+      "parameters": "DeleteObjectSetQuotaByTagInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "putObjectSetQuota",
+      "returnType": "PutObjectSetQuotaOutput",
+      "parameters": "PutObjectSetQuotaInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getObjectSetQuota",
+      "returnType": "GetObjectSetQuotaOutput",
+      "parameters": "GetObjectSetQuotaInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    },
+    {
+      "name": "getObjectSetStorage",
+      "returnType": "GetObjectSetStorageOutput",
+      "parameters": "GetObjectSetStorageInput input",
+      "category": "object-set",
+      "rustMethod": null,
+      "status": "missing"
+    }
+  ]
+}

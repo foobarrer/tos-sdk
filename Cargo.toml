@@ -1,0 +1,41 @@
+[package]
+name = "s3desktop-tos-sdk"
+version = "0.2.0-alpha.1"
+description = "Community-maintained native Volcengine TOS SDK for Rust"
+authors = ["S3 Desktop Contributors"]
+edition = "2021"
+rust-version = "1.94.1"
+license = "AGPL-3.0-only"
+readme = "README.md"
+keywords = ["volcengine", "tos", "object-storage", "async"]
+categories = ["api-bindings", "web-programming::http-client"]
+include = ["src/**", "examples/**", "tests/**", "compat/**", "docs/**", "tools/**", "Cargo.toml", "README.md", "CHANGELOG.md", "LICENSE", "THIRD_PARTY_NOTICES.md"]
+
+[features]
+default = ["java-parity-core"]
+java-parity-core = ["dep:ve-tos-rust-sdk"]
+
+[dependencies]
+async-trait = "0.1"
+aws-config = "1"
+aws-credential-types = "1"
+aws-types = "1"
+base64 = "0.22"
+chrono = { version = "0.4", features = ["serde"] }
+fs2 = "0.4"
+futures-util = "0.3"
+hex = "0.4"
+hmac = "0.12"
+md-5 = "0.10"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls-native-roots", "stream"] }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+sha2 = "0.10"
+tokio = { version = "1", features = ["fs", "io-util", "macros", "rt-multi-thread", "sync", "time"] }
+tokio-util = { version = "0.7", features = ["io", "rt"] }
+url = "2"
+ve-tos-rust-sdk = { version = "=2.9.20", optional = true, features = ["tokio-runtime"] }
+
+[dev-dependencies]
+tempfile = "3"
+wiremock = "0.6"

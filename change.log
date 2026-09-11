@@ -1,0 +1,25 @@
+[2026-09-11T19:20:04+08:00] Java SDK parity implementation started
+- User request: Build a standalone Rust TOS SDK with functionality equivalent to the official Java SDK, then let S3 Desktop consume it.
+- Completed: Initialized the standalone repository from the released S3 Desktop compatibility crate; pinned Java SDK v2.9.19 and Rust SDK v2.9.20 baselines; generated the complete Java API inventory; exposed the native Rust core under a default feature; added CI and an honest completeness gate.
+- Completed in this increment: Native, typed, async Java-compatible `listObjects` and `setObjectExpires` implementations with exact query/body wire tests. The audited count is now 108 complete, 2 partial, and 55 missing declarations.
+- Not completed: Fifty-five Java declarations still require native Rust implementation and full protocol/live tests; the S3 Desktop dependency remains unchanged until a stable standalone revision or remote URL exists.
+- Failures/retries/blockers: The first watchdog invocation placed its global root argument after the subcommand; corrected without changing product state. Live TOS mutation tests are deferred because no dedicated test credential scope has been authorized.
+- Local verification blocker: dependency resolution succeeded through the rsproxy sparse index, but compilation could not spawn `cc`/`rustc` because the current macOS user session is already at its process limit. The dominant processes are pre-existing Codex CUA helpers; none were terminated because they may belong to unrelated tasks. Source-level formatting and the parity-manifest validator completed before the limit was exhausted; the complete Rust suite remains pending after restarting Codex or otherwise freeing process slots.
+- Existing-feature impact and user approval: The user approved additive Java parity while retaining the existing 29-operation facade and S3 Desktop behavior. This phase adds a raw namespace and audit metadata; it removes no existing API and changes no application behavior.
+- Research: docs/research/java-sdk-v2.9.19-parity.md and compat/java-v2.9.19-api.json.
+- Tests and verification: Pending.
+- Version: 0.1.0 -> 0.2.0-alpha.1.
+- Git: This record belongs to the pending implementation commit.
+- Tag/package: No tag or public package; external publication was not authorized.
+- Next: Implement the remaining 55 Java-only declarations, complete the two partial file-transfer contracts, run differential/live testing, then connect S3 Desktop to a pinned standalone release.
+
+[2026-09-12T03:33:16+08:00] Java/Python comparison and parity implementation resumed
+- Completed: Recovered after the macOS process-limit failure without terminating unrelated Codex processes. The complete local Rust suite now passes.
+- Added: Six typed native access-point control-plane operations with TOS control-host signing and hermetic Java wire-contract tests.
+- Added: Legacy `putBucketNotification` and `getBucketNotification` operations, retaining the pinned Rust core's separate notification-v2 support.
+- Comparison: Pinned and inventoried official Python SDK v2.9.0 (`TosClientV2`, 106 public methods) alongside Java v2.9.19 and Rust v2.9.20; documented the normalized coverage and cross-region routing difference.
+- Current audit: 116 complete, 2 partial, and 47 missing Java declarations. This is an operation-level count, not a claim of full language-level or live-service parity.
+- Existing-feature impact: Additive standalone SDK work only. The S3 Desktop repository and its 29-operation TOS facade were not changed; no package, tag, remote repository, or live TOS resource was created.
+- Verification: Default-feature suite 20 passed and 1 credential-gated live read-only test was ignored; no-default-feature suite 19 passed and 1 was ignored. Rustfmt, Clippy with warnings denied, rustdoc with warnings denied, both compatibility validators, and Cargo package verification passed.
+- Performance: No cross-language benchmark claim is made yet; a reproducible benchmark matrix is a release gate.
+- Next: Implement the remaining 47 Java declarations, complete the two partial transfer contracts, add scoped live tests, then integrate S3 Desktop against a pinned standalone revision.

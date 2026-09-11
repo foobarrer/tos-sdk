@@ -1,0 +1,1629 @@
+{
+  "schemaVersion": 1,
+  "upstream": {
+    "project": "volcengine/ve-tos-python-sdk",
+    "version": "2.9.0",
+    "commit": "b6b93b6ca5e4c697688452cf04218ef200dd2996",
+    "source": "https://github.com/volcengine/ve-tos-python-sdk/blob/b6b93b6ca5e4c697688452cf04218ef200dd2996/tos/clientv2.py",
+    "sourceSha256": "298de972058844ffe4147605588c9e5e497c1c7862719cc2fee4ed915b69befc"
+  },
+  "summary": {
+    "publicMethodCount": 106
+  },
+  "methods": [
+    {
+      "name": "close",
+      "parameters": [
+        "self"
+      ],
+      "async": false,
+      "line": 1041
+    },
+    {
+      "name": "pre_signed_url",
+      "parameters": [
+        "self",
+        "http_method",
+        "bucket",
+        "key",
+        "expires",
+        "header",
+        "query",
+        "alternative_endpoint",
+        "is_custom_domain",
+        "is_signed_all_headers"
+      ],
+      "async": false,
+      "line": 1050
+    },
+    {
+      "name": "pre_signed_post_signature",
+      "parameters": [
+        "self",
+        "conditions",
+        "bucket",
+        "key",
+        "expires",
+        "content_length_range",
+        "multi_values_conditions"
+      ],
+      "async": false,
+      "line": 1094
+    },
+    {
+      "name": "pre_signed_policy_url",
+      "parameters": [
+        "self",
+        "bucket",
+        "conditions",
+        "expires",
+        "alternative_endpoint",
+        "is_custom_domain"
+      ],
+      "async": false,
+      "line": 1120
+    },
+    {
+      "name": "create_bucket",
+      "parameters": [
+        "self",
+        "bucket",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write",
+        "grant_write_acp",
+        "storage_class",
+        "az_redundancy",
+        "project_name",
+        "bucket_type",
+        "generic_input",
+        "tagging"
+      ],
+      "async": false,
+      "line": 1144
+    },
+    {
+      "name": "get_file_status",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "project_name",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1194
+    },
+    {
+      "name": "get_bucket_type",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1236
+    },
+    {
+      "name": "head_bucket",
+      "parameters": [
+        "self",
+        "bucket",
+        "project_name",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1245
+    },
+    {
+      "name": "get_bucket_info",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1265
+    },
+    {
+      "name": "delete_bucket",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1276
+    },
+    {
+      "name": "list_buckets",
+      "parameters": [
+        "self",
+        "project_name",
+        "generic_input",
+        "bucket_type"
+      ],
+      "async": false,
+      "line": 1290
+    },
+    {
+      "name": "copy_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "src_bucket",
+        "src_key",
+        "src_version_id",
+        "cache_control",
+        "content_disposition",
+        "content_encoding",
+        "content_language",
+        "content_type",
+        "expires",
+        "copy_source_if_match",
+        "copy_source_if_modified_since",
+        "copy_source_if_none_match",
+        "copy_source_if_unmodified_since",
+        "copy_source_ssec_algorithm",
+        "copy_source_ssec_key",
+        "copy_source_ssec_key_md5",
+        "server_side_encryption",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write_acp",
+        "metadata_directive",
+        "meta",
+        "website_redirect_location",
+        "storage_class",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "traffic_limit",
+        "forbid_overwrite",
+        "if_match",
+        "generic_input",
+        "tagging",
+        "tagging_directive",
+        "object_expires"
+      ],
+      "async": false,
+      "line": 1308
+    },
+    {
+      "name": "delete_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version_id",
+        "recursive",
+        "skip_trash",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1415
+    },
+    {
+      "name": "delete_multi_objects",
+      "parameters": [
+        "self",
+        "bucket",
+        "objects",
+        "quiet",
+        "recursive",
+        "skip_trash",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1439
+    },
+    {
+      "name": "get_object_acl",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1474
+    },
+    {
+      "name": "head_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version_id",
+        "if_match",
+        "if_modified_since",
+        "if_none_match",
+        "if_unmodified_since",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1493
+    },
+    {
+      "name": "list_objects",
+      "parameters": [
+        "self",
+        "bucket",
+        "prefix",
+        "delimiter",
+        "marker",
+        "max_keys",
+        "reverse",
+        "encoding_type",
+        "generic_input",
+        "fetch_meta"
+      ],
+      "async": false,
+      "line": 1534
+    },
+    {
+      "name": "list_object_versions",
+      "parameters": [
+        "self",
+        "bucket",
+        "prefix",
+        "delimiter",
+        "key_marker",
+        "version_id_marker",
+        "max_keys",
+        "encoding_type",
+        "generic_input",
+        "fetch_meta"
+      ],
+      "async": false,
+      "line": 1563
+    },
+    {
+      "name": "put_object_acl",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write_acp",
+        "owner",
+        "grants",
+        "generic_input",
+        "is_default"
+      ],
+      "async": false,
+      "line": 1593
+    },
+    {
+      "name": "put_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "content_length",
+        "content_md5",
+        "content_sha256",
+        "cache_control",
+        "content_disposition",
+        "content_encoding",
+        "content_language",
+        "content_type",
+        "expires",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_writeAcp",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "server_side_encryption",
+        "meta",
+        "website_redirect_location",
+        "storage_class",
+        "data_transfer_listener",
+        "rate_limiter",
+        "traffic_limit",
+        "content",
+        "callback",
+        "callback_var",
+        "forbid_overwrite",
+        "if_match",
+        "generic_input",
+        "tagging",
+        "object_expires",
+        "image_operations"
+      ],
+      "async": false,
+      "line": 1648
+    },
+    {
+      "name": "put_object_from_file",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "file_path",
+        "content_length",
+        "content_md5",
+        "content_sha256",
+        "cache_control",
+        "content_disposition",
+        "content_encoding",
+        "content_language",
+        "content_type",
+        "expires",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_writeAcp",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "server_side_encryption",
+        "meta",
+        "website_redirect_location",
+        "storage_class",
+        "data_transfer_listener",
+        "traffic_limit",
+        "rate_limiter",
+        "callback",
+        "callback_var",
+        "forbid_overwrite",
+        "if_match",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 1768
+    },
+    {
+      "name": "append_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "offset",
+        "content",
+        "content_length",
+        "cache_control",
+        "content_disposition",
+        "content_encoding",
+        "content_language",
+        "content_type",
+        "expires",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write_acp",
+        "meta",
+        "website_redirect_location",
+        "storage_class",
+        "data_transfer_listener",
+        "rate_limiter",
+        "pre_hash_crc64_ecma",
+        "traffic_limit",
+        "if_match",
+        "generic_input",
+        "object_expires"
+      ],
+      "async": false,
+      "line": 1920
+    },
+    {
+      "name": "set_object_meta",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version_id",
+        "cache_control",
+        "content_disposition",
+        "content_encoding",
+        "content_language",
+        "content_type",
+        "expires",
+        "meta",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 2067
+    },
+    {
+      "name": "get_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version_id",
+        "if_match",
+        "if_modified_since",
+        "if_none_match",
+        "if_unmodified_since",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "response_cache_control",
+        "response_content_disposition",
+        "response_content_encoding",
+        "response_content_language",
+        "response_content_type",
+        "response_expires",
+        "range_start",
+        "range_end",
+        "data_transfer_listener",
+        "rate_limiter",
+        "range",
+        "traffic_limit",
+        "process",
+        "save_bucket",
+        "save_object",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 2107
+    },
+    {
+      "name": "get_object_to_file",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "file_path",
+        "version_id",
+        "if_match",
+        "if_modified_since",
+        "if_none_match",
+        "if_unmodified_since",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "response_cache_control",
+        "response_content_disposition",
+        "response_content_encoding",
+        "response_content_language",
+        "response_content_type",
+        "response_expires",
+        "range_start",
+        "range_end",
+        "data_transfer_listener",
+        "rate_limiter",
+        "traffic_limit",
+        "process",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 2197
+    },
+    {
+      "name": "create_multipart_upload",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "encoding_type",
+        "cache_control",
+        "content_disposition",
+        "content_encoding",
+        "content_language",
+        "content_type",
+        "expires",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write_acp",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "server_side_encryption",
+        "meta",
+        "website_redirect_location",
+        "storage_class",
+        "forbid_overwrite",
+        "generic_input",
+        "tagging",
+        "object_expires"
+      ],
+      "async": false,
+      "line": 2294
+    },
+    {
+      "name": "upload_file",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "file_path",
+        "encoding_type",
+        "cache_control",
+        "content_disposition",
+        "content_encoding",
+        "content_language",
+        "content_type",
+        "expires",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write_acp",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "server_side_encryption",
+        "meta",
+        "website_redirect_location",
+        "storage_class",
+        "part_size",
+        "task_num",
+        "enable_checkpoint",
+        "checkpoint_file",
+        "data_transfer_listener",
+        "upload_event_listener",
+        "rate_limiter",
+        "cancel_hook",
+        "traffic_limit",
+        "generic_input",
+        "tagging",
+        "callback",
+        "callback_var"
+      ],
+      "async": false,
+      "line": 2373
+    },
+    {
+      "name": "resumable_copy_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "src_bucket",
+        "src_key",
+        "encoding_type",
+        "cache_control",
+        "content_disposition",
+        "content_encoding",
+        "content_language",
+        "content_type",
+        "expires",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write_acp",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "server_side_encryption",
+        "meta",
+        "website_redirect_location",
+        "storage_class",
+        "src_version_id",
+        "copy_source_if_match",
+        "copy_source_if_modified_since",
+        "copy_source_if_none_match",
+        "copy_source_if_unmodified_since",
+        "copy_source_ssec_algorithm",
+        "copy_source_ssec_key",
+        "copy_source_ssec_key_md5",
+        "part_size",
+        "task_num",
+        "enable_checkpoint",
+        "checkpoint_file",
+        "copy_event_listener",
+        "cancel_hook",
+        "traffic_limit",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 2563
+    },
+    {
+      "name": "download_file",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "file_path",
+        "version_id",
+        "if_match",
+        "if_modified_since",
+        "if_none_match",
+        "if_unmodified_since",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "part_size",
+        "task_num",
+        "enable_checkpoint",
+        "checkpoint_file",
+        "data_transfer_listener",
+        "download_event_listener",
+        "rate_limiter",
+        "cancel_hook",
+        "traffic_limit",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 2812
+    },
+    {
+      "name": "upload_part",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "upload_id",
+        "part_number",
+        "content_md5",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "server_side_encryption",
+        "content_length",
+        "content",
+        "data_transfer_listener",
+        "rate_limiter",
+        "traffic_limit",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 2961
+    },
+    {
+      "name": "upload_part_from_file",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "upload_id",
+        "part_number",
+        "content_md5",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "server_side_encryption",
+        "data_transfer_listener",
+        "rate_limiter",
+        "file_path",
+        "part_size",
+        "offset",
+        "traffic_limit",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3028
+    },
+    {
+      "name": "complete_multipart_upload",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "upload_id",
+        "parts",
+        "complete_all",
+        "callback",
+        "callback_var",
+        "forbid_overwrite",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3087
+    },
+    {
+      "name": "abort_multipart_upload",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "upload_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3118
+    },
+    {
+      "name": "upload_part_copy",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "upload_id",
+        "part_number",
+        "src_bucket",
+        "src_key",
+        "src_version_id",
+        "copy_source_range_start",
+        "copy_source_range_end",
+        "copy_source_if_match",
+        "copy_source_if_modified_since",
+        "copy_source_if_none_match",
+        "copy_source_if_unmodified_since",
+        "copy_source_ssec_algorithm",
+        "copy_source_ssec_key",
+        "copy_source_ssec_key_md5",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "copy_source_range",
+        "traffic_limit",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3134
+    },
+    {
+      "name": "list_multipart_uploads",
+      "parameters": [
+        "self",
+        "bucket",
+        "prefix",
+        "delimiter",
+        "key_marker",
+        "upload_id_marker",
+        "max_uploads",
+        "encoding_type",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3196
+    },
+    {
+      "name": "list_parts",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "upload_id",
+        "part_number_marker",
+        "max_parts",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3226
+    },
+    {
+      "name": "put_bucket_cors",
+      "parameters": [
+        "self",
+        "bucket",
+        "cors_rule",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3247
+    },
+    {
+      "name": "get_bucket_cors",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3264
+    },
+    {
+      "name": "delete_bucket_cors",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3276
+    },
+    {
+      "name": "list_objects_type2",
+      "parameters": [
+        "self",
+        "bucket",
+        "prefix",
+        "delimiter",
+        "start_after",
+        "continuation_token",
+        "reverse",
+        "max_keys",
+        "encoding_type",
+        "list_only_once",
+        "generic_input",
+        "fetch_meta"
+      ],
+      "async": false,
+      "line": 3289
+    },
+    {
+      "name": "put_symlink",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "symlink_target_key",
+        "symlink_target_bucket",
+        "storage_class",
+        "acl",
+        "meta",
+        "forbid_overwrite",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3331
+    },
+    {
+      "name": "get_symlink",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3364
+    },
+    {
+      "name": "put_bucket_storage_class",
+      "parameters": [
+        "self",
+        "bucket",
+        "storage_class",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3382
+    },
+    {
+      "name": "get_bucket_location",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3402
+    },
+    {
+      "name": "put_bucket_lifecycle",
+      "parameters": [
+        "self",
+        "bucket",
+        "rules",
+        "generic_input",
+        "allow_same_action_overlap"
+      ],
+      "async": false,
+      "line": 3413
+    },
+    {
+      "name": "get_bucket_lifecycle",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3435
+    },
+    {
+      "name": "delete_bucket_lifecycle",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3446
+    },
+    {
+      "name": "put_bucket_access_monitor",
+      "parameters": [
+        "self",
+        "bucket",
+        "status",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3457
+    },
+    {
+      "name": "get_bucket_access_monitor",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3471
+    },
+    {
+      "name": "does_bucket_exist",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3482
+    },
+    {
+      "name": "does_object_exist",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3495
+    },
+    {
+      "name": "put_bucket_policy",
+      "parameters": [
+        "self",
+        "bucket",
+        "policy",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3515
+    },
+    {
+      "name": "get_bucket_policy",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3527
+    },
+    {
+      "name": "delete_bucket_policy",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3538
+    },
+    {
+      "name": "put_bucket_mirror_back",
+      "parameters": [
+        "self",
+        "bucket",
+        "rules",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3549
+    },
+    {
+      "name": "get_bucket_mirror_back",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3566
+    },
+    {
+      "name": "delete_bucket_mirror_back",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3578
+    },
+    {
+      "name": "put_bucket_tagging",
+      "parameters": [
+        "self",
+        "bucket",
+        "tag_set",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3590
+    },
+    {
+      "name": "get_bucket_tagging",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3604
+    },
+    {
+      "name": "delete_bucket_tagging",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3614
+    },
+    {
+      "name": "put_object_tagging",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "tag_set",
+        "version_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3625
+    },
+    {
+      "name": "get_object_tagging",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3646
+    },
+    {
+      "name": "delete_object_tagging",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "version_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3663
+    },
+    {
+      "name": "put_bucket_acl",
+      "parameters": [
+        "self",
+        "bucket",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write",
+        "grant_write_acp",
+        "owner",
+        "grants",
+        "generic_input",
+        "bucket_acl_delivered"
+      ],
+      "async": false,
+      "line": 3680
+    },
+    {
+      "name": "get_bucket_acl",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3727
+    },
+    {
+      "name": "fetch_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "url",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write_acp",
+        "storage_class",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "meta",
+        "ignore_same_key",
+        "hex_md5",
+        "generic_input",
+        "content_md5"
+      ],
+      "async": false,
+      "line": 3740
+    },
+    {
+      "name": "put_fetch_task",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "url",
+        "acl",
+        "grant_full_control",
+        "grant_read",
+        "grant_read_acp",
+        "grant_write_acp",
+        "storage_class",
+        "ssec_algorithm",
+        "ssec_key",
+        "ssec_key_md5",
+        "meta",
+        "ignore_same_key",
+        "hex_md5",
+        "generic_input",
+        "content_md5",
+        "callback_url",
+        "callback_host",
+        "callback_body",
+        "callback_body_type"
+      ],
+      "async": false,
+      "line": 3794
+    },
+    {
+      "name": "get_fetch_task",
+      "parameters": [
+        "self",
+        "bucket",
+        "task_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3857
+    },
+    {
+      "name": "put_bucket_replication",
+      "parameters": [
+        "self",
+        "bucket",
+        "role",
+        "rules",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3872
+    },
+    {
+      "name": "get_bucket_replication",
+      "parameters": [
+        "self",
+        "bucket",
+        "rule_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3889
+    },
+    {
+      "name": "delete_bucket_replication",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3905
+    },
+    {
+      "name": "put_bucket_versioning",
+      "parameters": [
+        "self",
+        "bucket",
+        "status",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3917
+    },
+    {
+      "name": "get_bucket_version",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3934
+    },
+    {
+      "name": "put_bucket_website",
+      "parameters": [
+        "self",
+        "bucket",
+        "redirect_all_requests_to",
+        "index_document",
+        "error_document",
+        "routing_rules",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3966
+    },
+    {
+      "name": "get_bucket_website",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 3990
+    },
+    {
+      "name": "delete_bucket_website",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4001
+    },
+    {
+      "name": "put_bucket_notification",
+      "parameters": [
+        "self",
+        "bucket",
+        "cloud_function_configurations",
+        "rocket_mq_configurations",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4011
+    },
+    {
+      "name": "get_bucket_notification",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4031
+    },
+    {
+      "name": "put_bucket_notification_type2",
+      "parameters": [
+        "self",
+        "bucket",
+        "rule",
+        "version",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4042
+    },
+    {
+      "name": "get_bucket_notification_type2",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4061
+    },
+    {
+      "name": "put_bucket_custom_domain",
+      "parameters": [
+        "self",
+        "bucket",
+        "rule",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4073
+    },
+    {
+      "name": "list_bucket_custom_domain",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4089
+    },
+    {
+      "name": "List_bucket_custom_domain",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4101
+    },
+    {
+      "name": "delete_bucket_custom_domain",
+      "parameters": [
+        "self",
+        "bucket",
+        "domain",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4113
+    },
+    {
+      "name": "put_bucket_real_time_log",
+      "parameters": [
+        "self",
+        "bucket",
+        "configuration",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4125
+    },
+    {
+      "name": "get_bucket_real_time_log",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4140
+    },
+    {
+      "name": "delete_bucket_real_time_log",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4151
+    },
+    {
+      "name": "restore_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "days",
+        "version_id",
+        "restore_job_parameters",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4162
+    },
+    {
+      "name": "rename_object",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "new_key",
+        "generic_input",
+        "recursive_mkdir",
+        "forbid_overwrite"
+      ],
+      "async": false,
+      "line": 4187
+    },
+    {
+      "name": "get_bucket_rename",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4210
+    },
+    {
+      "name": "put_bucket_rename",
+      "parameters": [
+        "self",
+        "bucket",
+        "rename_enable",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4220
+    },
+    {
+      "name": "delete_bucket_rename",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4235
+    },
+    {
+      "name": "put_bucket_encryption",
+      "parameters": [
+        "self",
+        "bucket",
+        "rule",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4245
+    },
+    {
+      "name": "put_qos_policy",
+      "parameters": [
+        "self",
+        "account_id",
+        "policy",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4261
+    },
+    {
+      "name": "get_qos_policy",
+      "parameters": [
+        "self",
+        "account_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4266
+    },
+    {
+      "name": "delete_qos_policy",
+      "parameters": [
+        "self",
+        "account_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4271
+    },
+    {
+      "name": "get_bucket_encryption",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4276
+    },
+    {
+      "name": "delete_bucket_encryption",
+      "parameters": [
+        "self",
+        "bucket",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4288
+    },
+    {
+      "name": "set_object_expires",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "object_expires",
+        "version_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4300
+    },
+    {
+      "name": "set_object_time",
+      "parameters": [
+        "self",
+        "bucket",
+        "key",
+        "modify_timestamp",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4326
+    },
+    {
+      "name": "put_bucket_inventory",
+      "parameters": [
+        "self",
+        "bucket",
+        "bucket_inventory_configuration",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4352
+    },
+    {
+      "name": "get_bucket_inventory",
+      "parameters": [
+        "self",
+        "bucket",
+        "inventory_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4368
+    },
+    {
+      "name": "list_bucket_inventory",
+      "parameters": [
+        "self",
+        "bucket",
+        "continuation_token",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4379
+    },
+    {
+      "name": "delete_bucket_inventory",
+      "parameters": [
+        "self",
+        "bucket",
+        "inventory_id",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4392
+    },
+    {
+      "name": "simple_query",
+      "parameters": [
+        "self",
+        "account_id",
+        "dataset_name",
+        "sort",
+        "order",
+        "max_results",
+        "next_token",
+        "with_fields",
+        "query",
+        "aggregations",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4404
+    },
+    {
+      "name": "semantic_query",
+      "parameters": [
+        "self",
+        "account_id",
+        "dataset_name",
+        "semantic_query_input",
+        "semantic_query_type",
+        "max_results",
+        "with_fields",
+        "query",
+        "generic_input"
+      ],
+      "async": false,
+      "line": 4426
+    }
+  ]
+}
