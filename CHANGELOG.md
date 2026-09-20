@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0-alpha.2 - 2026-09-20
+
+- Add `Client::register_bucket_route` so least-privilege callers can provide a
+  validated native TOS region and endpoint without requiring account-level
+  `ListBuckets` discovery.
+- Add a credential-gated live integration test constrained to
+  `tos://it-audit/vdb/data_mining/test/tossdk/`.
+- Document commit-pinned public Git consumption for reproducible S3 Desktop
+  builds while preserving the existing automatic discovery behavior.
+
 ## 0.2.0-alpha.1 - 2026-09-11
 
 - Establish Java SDK v2.9.19 as an immutable, machine-readable compatibility

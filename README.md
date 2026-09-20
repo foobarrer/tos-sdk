@@ -5,17 +5,17 @@ requests signed with `TOS4-HMAC-SHA256`; it does not route storage operations
 through an AWS S3 client or S3-compatible endpoint.
 
 This reusable client was extracted from S3 Desktop. It is community-maintained
-and is not an official Volcengine SDK. Version `0.2.0-alpha.1` starts a measured
+and is not an official Volcengine SDK. Version `0.2.0-alpha.2` continues a measured
 compatibility track against the public Java SDK v2.9.19 surface. S3 Desktop has
-not switched to the standalone dependency yet.
+switched to a commit-pinned dependency from this public repository.
 
 ## Add the dependency
 
-Before the standalone repository is published, use a local path dependency:
+Pin a public Git revision so every build consumes the same audited source:
 
 ```toml
 [dependencies]
-s3desktop-tos-sdk = { path = "../s3desktop-tos-sdk" }
+s3desktop-tos-sdk = { git = "https://github.com/foobarrer/tos-sdk", rev = "<commit-sha>", default-features = false }
 tokio = { version = "1", features = ["macros", "rt-multi-thread"] }
 ```
 
@@ -59,6 +59,23 @@ Bucket discovery records the native region returned by TOS. Later bucket
 requests use that region automatically, so one client can access buckets across
 regions. Direct access still works when the identity can access a bucket but
 cannot list all buckets.
+
+Least-privilege callers that already know a bucket's native region and endpoint
+can register that trusted route without an account-level `ListBuckets` request:
+
+```rust,no_run
+# use s3desktop_tos_sdk::{Client, Error};
+# async fn register(client: &Client) -> Result<(), Error> {
+client
+    .register_bucket_route(
+        "example-bucket",
+        "cn-beijing",
+        "example-bucket.tos-cn-beijing.volces.com",
+    )
+    .await?;
+# Ok(())
+# }
+```
 
 ## Java SDK compatibility
 
@@ -126,9 +143,18 @@ cargo test --test live_read_only -- --ignored --nocapture
 Set `TOS_SDK_LIVE_BUCKET` to additionally list one page from a bucket. Add
 `TOS_SDK_LIVE_SESSION_TOKEN` when using temporary credentials.
 
+An additional ignored integration test performs create, read, copy, stream,
+list, and cleanup operations only below
+`tos://it-audit/vdb/data_mining/test/tossdk/`. It requires the same credential
+variables plus `TOS_SDK_LIVE_ENDPOINT`:
+
+```sh
+cargo test --test live_scoped_prefix -- --ignored --nocapture
+```
+
 ## Compatibility and licensing
 
 The crate requires Rust 1.94.1 or newer. Public API follows semantic versioning;
-the Java-parity work is currently `0.2.0-alpha.1`. It is licensed under
+the Java-parity work is currently `0.2.0-alpha.2`. It is licensed under
 AGPL-3.0-only, matching S3 Desktop. No database or configuration migration is
 required to adopt it.

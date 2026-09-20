@@ -9,7 +9,7 @@ Recorded: 2026-09-12T03:33:16+08:00
 | Java | 2.9.19 | `cd82b2345dbe0c3c15ebee4865ca37cae343512f` | 165 declarations, 161 distinct names |
 | Rust | 2.9.20 | crates.io package checksum through `Cargo.lock` | 106 Java declarations, 102 distinct Java names |
 | Python | 2.9.0 | `b6b93b6ca5e4c697688452cf04218ef200dd2996` | 106 public `TosClientV2` methods |
-| This crate | 0.2.0-alpha.1 | local development revision | 116 complete, 2 partial, 47 missing Java declarations |
+| This crate | 0.2.0-alpha.2 | public Git revision | 116 complete, 2 partial, 47 missing Java declarations |
 
 Official sources:
 

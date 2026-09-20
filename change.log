@@ -23,3 +23,16 @@
 - Verification: Default-feature suite 20 passed and 1 credential-gated live read-only test was ignored; no-default-feature suite 19 passed and 1 was ignored. Rustfmt, Clippy with warnings denied, rustdoc with warnings denied, both compatibility validators, and Cargo package verification passed.
 - Performance: No cross-language benchmark claim is made yet; a reproducible benchmark matrix is a release gate.
 - Next: Implement the remaining 47 Java declarations, complete the two partial transfer contracts, add scoped live tests, then integrate S3 Desktop against a pinned standalone revision.
+
+[2026-09-20T17:48:30+08:00] Public Git dependency integration
+- User request: Synchronize the TOS SDK behavior used by S3 Desktop, push the standalone SDK, and make future S3 Desktop builds consume the public repository.
+- Completed: Added a validated public bucket-route registration API and a credential-gated integration test restricted to the authorized TOS prefix; documented commit-pinned Git consumption.
+- Not completed: The live test is not rerun in this increment because it needs saved TOS credentials; the identical in-tree implementation previously passed the scoped live test.
+- Failures/retries/blockers: Local free disk is below the 5 GiB build-write safety threshold, so verification prioritizes low-write checks and GitHub CI instead of a fresh local full rebuild.
+- Existing-feature impact and user approval: Approved additive API and build-source migration. Automatic bucket discovery remains the default; no existing method, data format, or runtime behavior is removed.
+- Research: Existing Java/Python/Rust comparison documents remain applicable; no new compatibility count is claimed.
+- Tests and verification: Rustfmt, locked offline Cargo metadata, both compatibility validators, source parity with the previously tested in-tree implementation, and `git diff --check` pass. Package inventory could not refresh the configured mirror within the bounded wait; GitHub CI is pending.
+- Version: 0.2.0-alpha.1 -> 0.2.0-alpha.2.
+- Git: This record belongs to the pending implementation commit.
+- Tag/package: No tag or crates.io package; the public Git commit will be the immutable dependency identity.
+- Next: Push the verified SDK commit, pin S3 Desktop to that commit, update Cargo.lock, and verify the resolved dependency source.

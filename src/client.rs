@@ -267,6 +267,30 @@ impl Client {
         Ok(self)
     }
 
+    /// Registers a trusted route for a known bucket.
+    ///
+    /// Least-privilege callers can use this before their first bucket request
+    /// to avoid the account-level `ListBuckets` discovery call. The endpoint
+    /// is validated with the same native TOS host rules as discovered routes.
+    pub async fn register_bucket_route(
+        &self,
+        bucket: &str,
+        region: &str,
+        endpoint: &str,
+    ) -> Result<(), AppError> {
+        validate_tos_identifier(bucket, "TOS bucket")?;
+        validate_tos_identifier(region, "TOS region")?;
+        let endpoint = normalize_bucket_endpoint(bucket, region, endpoint, "")?;
+        self.routes.write().await.insert(
+            bucket.to_string(),
+            TosBucketRoute {
+                region: region.to_string(),
+                endpoint,
+            },
+        );
+        Ok(())
+    }
+
     #[cfg(test)]
     pub(crate) fn with_transport_base_url(mut self, url: Url) -> Self {
         self.transport_base_url = Some(url);
@@ -2329,6 +2353,43 @@ mod tests {
             },
         );
         client
+    }
+
+    #[tokio::test]
+    async fn registered_bucket_route_skips_account_discovery() {
+        let server = MockServer::start().await;
+        signed_get("/")
+            .and(query_param("list-type", "2"))
+            .and(query_param("prefix", "vdb/data_mining/test/tossdk/"))
+            .respond_with(ResponseTemplate::new(200).set_body_json(serde_json::json!({
+                "Contents": [],
+                "CommonPrefixes": [],
+                "NextContinuationToken": ""
+            })))
+            .expect(1)
+            .mount(&server)
+            .await;
+        let client = Client::new(
+            ConnectionProfile::new("cn-beijing"),
+            Some(credentials()),
+            None,
+        )
+        .await
+        .unwrap()
+        .with_transport_base_url(Url::parse(&server.uri()).unwrap());
+        client
+            .register_bucket_route(
+                "it-audit",
+                "cn-beijing",
+                "it-audit.tos-cn-beijing.volces.com",
+            )
+            .await
+            .unwrap();
+
+        client
+            .list_objects("it-audit", "vdb/data_mining/test/tossdk/", None, 1)
+            .await
+            .unwrap();
     }
 
     fn signed_get(path_value: &str) -> MockBuilder {
