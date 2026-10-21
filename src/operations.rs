@@ -251,6 +251,27 @@ pub trait TosOperations: Send + Sync {
         path: &Path,
         concurrency: usize,
         multipart_threshold: u64,
+    ) -> Result<u64, AppError> {
+        self.upload_with_progress(
+            bucket,
+            key,
+            path,
+            Arc::new(Semaphore::new(concurrency.max(1))),
+            multipart_threshold,
+            Arc::new(|_| {}),
+        )
+        .await
+    }
+    /// Uploads a local file while sharing a request limit and reporting the
+    /// number of bytes committed by the current attempt.
+    async fn upload_with_progress(
+        &self,
+        bucket: &str,
+        key: &str,
+        path: &Path,
+        request_permits: Arc<Semaphore>,
+        multipart_threshold: u64,
+        progress: Arc<dyn Fn(u64) + Send + Sync>,
     ) -> Result<u64, AppError>;
     /// Downloads an object to a local file with disk-usage safeguards.
     async fn download(

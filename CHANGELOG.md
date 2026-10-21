@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0-alpha.4 - 2026-10-21
+
+- Add an upload progress API that reports committed bytes for single-part and
+  multipart transfers while preserving the existing upload method.
+- Allow callers to share one semaphore across concurrent files so the configured
+  upload request limit applies to the whole task rather than to each file.
+
 ## 0.2.0-alpha.3 - 2026-10-21
 
 - Make the configured native TOS endpoint authoritative for account-level

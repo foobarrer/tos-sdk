@@ -1,6 +1,6 @@
 [package]
 name = "s3desktop-tos-sdk"
-version = "0.2.0-alpha.3"
+version = "0.2.0-alpha.4"
 description = "Community-maintained native Volcengine TOS SDK for Rust"
 authors = ["S3 Desktop Contributors"]
 edition = "2021"

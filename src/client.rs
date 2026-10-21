@@ -26,11 +26,14 @@ use sha2::{Digest, Sha256};
 use std::{
     collections::{BTreeMap, HashMap},
     path::{Path, PathBuf},
-    sync::Arc,
+    sync::{
+        atomic::{AtomicU64, Ordering},
+        Arc,
+    },
     time::Duration,
 };
 use tokio::io::{AsyncReadExt, AsyncSeekExt, AsyncWriteExt, DuplexStream};
-use tokio::sync::{RwLock, Semaphore};
+use tokio::sync::{OwnedSemaphorePermit, RwLock, Semaphore};
 use tokio_util::{io::ReaderStream, sync::CancellationToken};
 use url::Url;
 
@@ -38,6 +41,16 @@ type HmacSha256 = Hmac<Sha256>;
 
 const EMPTY_SHA256: &str = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
 const UNSIGNED_PAYLOAD: &str = "UNSIGNED-PAYLOAD";
+const MAX_BUFFERED_UPLOAD_PARTS: usize = 64;
+
+async fn upload_request_permit(permits: &Arc<Semaphore>) -> Result<OwnedSemaphorePermit, AppError> {
+    permits.clone().acquire_owned().await.map_err(|_| {
+        AppError::new(
+            "upload_concurrency_closed",
+            "The upload request limiter stopped unexpectedly",
+        )
+    })
+}
 
 #[derive(Debug, Clone)]
 struct TosBucketRoute {
@@ -783,19 +796,27 @@ impl Client {
         key: &str,
         path: &Path,
         total: u64,
-        concurrency: usize,
+        request_permits: Arc<Semaphore>,
+        progress: Arc<dyn Fn(u64) + Send + Sync>,
     ) -> Result<u64, AppError> {
-        let upload_id = self
-            .create_multipart(bucket, key, BTreeMap::new(), "CreateMultipartUpload")
-            .await?;
+        let upload_id = {
+            let _permit = upload_request_permit(&request_permits).await?;
+            self.create_multipart(bucket, key, BTreeMap::new(), "CreateMultipartUpload")
+                .await?
+        };
         let part_size = multipart_part_size(total);
+        let completed_bytes = Arc::new(AtomicU64::new(0));
         let parts = (0..total.div_ceil(part_size)).map(|index| {
             let provider = self.clone();
             let path = path.to_path_buf();
             let bucket = bucket.to_string();
             let key = key.to_string();
             let upload_id = upload_id.clone();
+            let request_permits = request_permits.clone();
+            let completed_bytes = completed_bytes.clone();
+            let progress = progress.clone();
             async move {
+                let _permit = upload_request_permit(&request_permits).await?;
                 let offset = index * part_size;
                 let length = part_size.min(total - offset);
                 let mut file = tokio::fs::File::open(path).await?;
@@ -807,7 +828,7 @@ impl Client {
                     })?
                 ];
                 file.read_exact(&mut bytes).await?;
-                provider
+                let part = provider
                     .upload_part(
                         &bucket,
                         &key,
@@ -821,11 +842,17 @@ impl Client {
                         bytes,
                         "UploadPart",
                     )
-                    .await
+                    .await?;
+                let completed = completed_bytes
+                    .fetch_add(length, Ordering::Relaxed)
+                    .saturating_add(length)
+                    .min(total);
+                progress(completed);
+                Ok::<_, AppError>(part)
             }
         });
         let uploaded = stream::iter(parts)
-            .buffer_unordered(concurrency.max(1))
+            .buffer_unordered(MAX_BUFFERED_UPLOAD_PARTS)
             .collect::<Vec<_>>()
             .await;
         let mut completed = Vec::with_capacity(uploaded.len());
@@ -833,17 +860,23 @@ impl Client {
             match result {
                 Ok(part) => completed.push(part),
                 Err(error) => {
-                    self.abort_multipart(bucket, key, &upload_id).await;
+                    if let Ok(_permit) = upload_request_permit(&request_permits).await {
+                        self.abort_multipart(bucket, key, &upload_id).await;
+                    }
                     return Err(error);
                 }
             }
         }
         completed.sort_by_key(|part| part.part_number);
-        if let Err(error) = self
-            .complete_multipart(bucket, key, &upload_id, &completed)
-            .await
-        {
-            self.abort_multipart(bucket, key, &upload_id).await;
+        let completion = {
+            let _permit = upload_request_permit(&request_permits).await?;
+            self.complete_multipart(bucket, key, &upload_id, &completed)
+                .await
+        };
+        if let Err(error) = completion {
+            if let Ok(_permit) = upload_request_permit(&request_permits).await {
+                self.abort_multipart(bucket, key, &upload_id).await;
+            }
             return Err(error);
         }
         Ok(total)
@@ -1325,20 +1358,22 @@ impl TosOperations for Client {
         Ok(())
     }
 
-    async fn upload(
+    async fn upload_with_progress(
         &self,
         bucket: &str,
         key: &str,
         path: &Path,
-        concurrency: usize,
+        request_permits: Arc<Semaphore>,
         multipart_threshold: u64,
+        progress: Arc<dyn Fn(u64) + Send + Sync>,
     ) -> Result<u64, AppError> {
         let metadata = tokio::fs::metadata(path).await?;
         if metadata.len() > multipart_threshold {
             return self
-                .multipart_upload_file(bucket, key, path, metadata.len(), concurrency)
+                .multipart_upload_file(bucket, key, path, metadata.len(), request_permits, progress)
                 .await;
         }
+        let _permit = upload_request_permit(&request_permits).await?;
         let file = tokio::fs::File::open(path).await.map_err(|error| {
             AppError::new("file_read_failed", "Unable to open the local upload file")
                 .with_details(error.to_string())
@@ -1354,6 +1389,7 @@ impl TosOperations for Client {
             Some(body),
         )
         .await?;
+        progress(metadata.len());
         Ok(metadata.len())
     }
 
@@ -3011,13 +3047,23 @@ mod tests {
                 .unwrap(),
             5
         );
+        let progress_events = Arc::new(Mutex::new(Vec::new()));
+        let observed_progress = progress_events.clone();
         assert_eq!(
             client
-                .upload("test-bucket", "multipart.bin", &small, 2, 1)
+                .upload_with_progress(
+                    "test-bucket",
+                    "multipart.bin",
+                    &small,
+                    Arc::new(Semaphore::new(2)),
+                    1,
+                    Arc::new(move |bytes| observed_progress.lock().unwrap().push(bytes)),
+                )
                 .await
                 .unwrap(),
             5
         );
+        assert_eq!(*progress_events.lock().unwrap(), vec![5]);
 
         let (mut writer, reader) = tokio::io::duplex(64);
         writer.write_all(b"stream").await.unwrap();

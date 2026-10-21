@@ -46,3 +46,13 @@
 - Git: This record belongs to the completing SDK commit; S3 Desktop will pin that immutable revision.
 - Tag/package: No crates.io package or tag requested.
 - Next: Push the SDK commit, update S3 Desktop's pinned revision, migrate application profiles, and run read-only native TOS acceptance checks.
+
+[2026-10-21T17:27:52+08:00] Upload progress and task-level concurrency support
+- User request: Continue the approved fix for uploads that appeared stuck at zero bytes and did not apply the configured concurrency across a whole upload task.
+- Completed: Added an additive upload progress API that reports committed bytes for single-part and multipart uploads and accepts a shared request semaphore; retained the existing upload method as a compatibility wrapper.
+- Existing-feature impact and user approval: The user approved byte-level task progress, accurate attempt reporting, and task-wide upload concurrency. Existing upload call sites, native TOS routing, signing, object semantics, and retry behavior remain available.
+- Tests and verification: The focused file and stream upload test passed; the full all-features test suite passed with 24 tests and 2 credential-gated live tests ignored. Formatting, Clippy, rustdoc, and final diff checks are recorded by the completing commit.
+- Version: 0.2.0-alpha.3 -> 0.2.0-alpha.4.
+- Git: This record belongs to the completing SDK commit.
+- Tag/package: No crates.io package or tag requested; S3 Desktop will pin the immutable Git revision.
+- Next: Push the SDK commit, update S3 Desktop's pinned revision, verify application transfer tests and build, then perform single-instance acceptance.
