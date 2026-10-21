@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.0-alpha.5 - 2026-10-21
+
+- Report live byte progress for single-request uploads and for resumable single
+  and multipart downloads while preserving the existing convenience methods.
+- Refuse multipart downloads before network transfer when cached ranges, the
+  remaining ranges, and final assembly would exceed the configured disk limit.
+
 ## 0.2.0-alpha.4 - 2026-10-21
 
 - Add an upload progress API that reports committed bytes for single-part and

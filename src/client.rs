@@ -6,9 +6,9 @@ use crate::{
         ObjectProperties, ObjectProperty, PrefixSummary, SecretBundle,
     },
     operations::{
-        display_name, multipart_part_size, normalized_list_page_size, DirectoryObjectPage,
-        DiskUsageGuard, DownloadResult, TosOperations, TransferBandwidthLimiter,
-        TransferObjectInfo,
+        display_name, ensure_disk_capacity_for_write, multipart_download_additional_bytes,
+        multipart_part_size, normalized_list_page_size, DirectoryObjectPage, DiskUsageGuard,
+        DownloadResult, TosOperations, TransferBandwidthLimiter, TransferObjectInfo,
     },
     request_observer::{record_http_request, RequestStatisticsRecorder},
 };
@@ -922,6 +922,7 @@ impl Client {
         concurrency: usize,
         disk_usage_threshold_percent: u8,
         etag: &str,
+        progress: Arc<dyn Fn(u64, u64) + Send + Sync>,
     ) -> Result<u64, AppError> {
         DiskUsageGuard::new(path, disk_usage_threshold_percent)?;
         if let Some(parent) = path.parent() {
@@ -941,11 +942,41 @@ impl Client {
         }
         tokio::fs::write(&manifest, identity).await?;
 
-        let ranges = (0..total.div_ceil(part_size)).map(|index| {
+        let part_count = total.div_ceil(part_size);
+        let mut cached_bytes = 0_u64;
+        for index in 0..part_count {
+            let start = index * part_size;
+            let expected = part_size.min(total - start);
+            let part_path = parts_directory.join(format!("{index:05}.part"));
+            if tokio::fs::metadata(part_path)
+                .await
+                .map(|value| value.len())
+                .unwrap_or(0)
+                == expected
+            {
+                cached_bytes = cached_bytes.saturating_add(expected);
+            }
+        }
+        let assembled = PathBuf::from(format!("{}.s3desktop.part", path.to_string_lossy()));
+        let reclaimable_assembly = tokio::fs::metadata(&assembled)
+            .await
+            .map(|value| value.len())
+            .unwrap_or(0);
+        ensure_disk_capacity_for_write(
+            path,
+            disk_usage_threshold_percent,
+            multipart_download_additional_bytes(total, cached_bytes, reclaimable_assembly),
+        )?;
+        let downloaded_bytes = Arc::new(AtomicU64::new(cached_bytes));
+        progress(cached_bytes, total);
+
+        let ranges = (0..part_count).map(|index| {
             let provider = self.clone();
             let bucket = bucket.to_string();
             let key = key.to_string();
             let part_path = parts_directory.join(format!("{index:05}.part"));
+            let downloaded_bytes = downloaded_bytes.clone();
+            let progress = progress.clone();
             async move {
                 let mut disk_guard = DiskUsageGuard::new(&part_path, disk_usage_threshold_percent)?;
                 let start = index * part_size;
@@ -989,6 +1020,11 @@ impl Client {
                     file.write_all(&bytes).await?;
                     disk_guard.record_write(bytes.len() as u64)?;
                     written = written.saturating_add(bytes.len() as u64);
+                    let completed = downloaded_bytes
+                        .fetch_add(bytes.len() as u64, Ordering::Relaxed)
+                        .saturating_add(bytes.len() as u64)
+                        .min(total);
+                    progress(completed, total);
                 }
                 file.flush().await?;
                 disk_guard.check_now()?;
@@ -1013,7 +1049,6 @@ impl Client {
         }
         parts.sort_by_key(|part| part.0);
 
-        let assembled = PathBuf::from(format!("{}.s3desktop.part", path.to_string_lossy()));
         let mut output = tokio::fs::File::create(&assembled).await?;
         let mut disk_guard = DiskUsageGuard::new(&assembled, disk_usage_threshold_percent)?;
         let mut assembled_size = 0_u64;
@@ -1040,6 +1075,7 @@ impl Client {
         }
         replace_file(&assembled, path).await?;
         tokio::fs::remove_dir_all(parts_directory).await?;
+        progress(total, total);
         Ok(total)
     }
 }
@@ -1378,7 +1414,19 @@ impl TosOperations for Client {
             AppError::new("file_read_failed", "Unable to open the local upload file")
                 .with_details(error.to_string())
         })?;
-        let body = reqwest::Body::wrap_stream(ReaderStream::new(file));
+        let uploaded = Arc::new(AtomicU64::new(0));
+        let observed_upload = uploaded.clone();
+        let observed_progress = progress.clone();
+        let total = metadata.len();
+        let stream = ReaderStream::new(file).map_ok(move |bytes| {
+            let completed = observed_upload
+                .fetch_add(bytes.len() as u64, Ordering::Relaxed)
+                .saturating_add(bytes.len() as u64)
+                .min(total);
+            observed_progress(completed);
+            bytes
+        });
+        let body = reqwest::Body::wrap_stream(stream);
         self.send_bucket(
             "PutObject",
             Method::PUT,
@@ -1393,7 +1441,7 @@ impl TosOperations for Client {
         Ok(metadata.len())
     }
 
-    async fn download(
+    async fn download_with_progress(
         &self,
         bucket: &str,
         key: &str,
@@ -1401,10 +1449,12 @@ impl TosOperations for Client {
         concurrency: usize,
         multipart_threshold: u64,
         disk_usage_threshold_percent: u8,
+        progress: Arc<dyn Fn(u64, u64) + Send + Sync>,
     ) -> Result<DownloadResult, AppError> {
         let head = self.head_object_response(bucket, key, "HeadObject").await?;
         let size = content_length(head.headers());
         let etag = header_string(head.headers(), "etag");
+        progress(0, size);
         if size > multipart_threshold {
             let bytes = self
                 .parallel_download(
@@ -1415,6 +1465,7 @@ impl TosOperations for Client {
                     concurrency,
                     disk_usage_threshold_percent,
                     etag.as_deref().unwrap_or_default(),
+                    progress,
                 )
                 .await?;
             return Ok(DownloadResult { bytes, etag });
@@ -1429,6 +1480,7 @@ impl TosOperations for Client {
             .map(|value| value.len())
             .unwrap_or(0);
         if resume_offset == size && size > 0 {
+            progress(size, size);
             replace_file(&temporary, path).await?;
             return Ok(DownloadResult { bytes: size, etag });
         }
@@ -1454,6 +1506,7 @@ impl TosOperations for Client {
         }
         let mut file = options.open(&temporary).await?;
         let mut written = if resumed { resume_offset } else { 0 };
+        progress(written, size);
         let mut stream = response.bytes_stream();
         while let Some(bytes) = stream.try_next().await.map_err(|error| {
             AppError::retryable(
@@ -1465,11 +1518,13 @@ impl TosOperations for Client {
             file.write_all(&bytes).await?;
             disk_guard.record_write(bytes.len() as u64)?;
             written = written.saturating_add(bytes.len() as u64);
+            progress(written.min(size), size);
         }
         file.flush().await?;
         disk_guard.check_now()?;
         drop(file);
         replace_file(&temporary, path).await?;
+        progress(written.min(size), size);
         Ok(DownloadResult {
             bytes: written,
             etag,
@@ -2863,12 +2918,27 @@ mod tests {
 
         let directory = tempdir().unwrap();
         let target = directory.path().join("download.bin");
+        let download_progress = Arc::new(Mutex::new(Vec::new()));
+        let observed_download = download_progress.clone();
         let result = client
-            .download("test-bucket", "download.bin", &target, 1, 1024, 99)
+            .download_with_progress(
+                "test-bucket",
+                "download.bin",
+                &target,
+                1,
+                1024,
+                99,
+                Arc::new(move |done, total| observed_download.lock().unwrap().push((done, total))),
+            )
             .await
             .unwrap();
         assert_eq!(result.bytes, 8);
         assert_eq!(tokio::fs::read(target).await.unwrap(), b"download");
+        {
+            let download_progress = download_progress.lock().unwrap();
+            assert_eq!(download_progress.first(), Some(&(0, 8)));
+            assert_eq!(download_progress.last(), Some(&(8, 8)));
+        }
 
         let (writer, mut reader) = tokio::io::duplex(64);
         let stream_client = client.clone();
@@ -3047,6 +3117,23 @@ mod tests {
                 .unwrap(),
             5
         );
+        let single_progress = Arc::new(Mutex::new(Vec::new()));
+        let observed_single = single_progress.clone();
+        assert_eq!(
+            client
+                .upload_with_progress(
+                    "test-bucket",
+                    "small.bin",
+                    &small,
+                    Arc::new(Semaphore::new(1)),
+                    1024,
+                    Arc::new(move |bytes| observed_single.lock().unwrap().push(bytes)),
+                )
+                .await
+                .unwrap(),
+            5
+        );
+        assert_eq!(single_progress.lock().unwrap().last(), Some(&5));
         let progress_events = Arc::new(Mutex::new(Vec::new()));
         let observed_progress = progress_events.clone();
         assert_eq!(

@@ -156,6 +156,62 @@ fn ensure_disk_below_limit(path: &Path, threshold_percent: u8) -> Result<(), App
     Ok(())
 }
 
+pub(crate) fn multipart_download_additional_bytes(
+    total: u64,
+    cached_parts: u64,
+    reclaimable_assembly: u64,
+) -> u64 {
+    total
+        .saturating_sub(cached_parts.min(total))
+        .saturating_add(total.saturating_sub(reclaimable_assembly.min(total)))
+}
+
+fn disk_has_capacity(
+    total_space: u64,
+    available_space: u64,
+    threshold_percent: u8,
+    additional_bytes: u64,
+) -> bool {
+    if total_space == 0 {
+        return true;
+    }
+    let used = total_space.saturating_sub(available_space);
+    let usage_limit = ((total_space as u128) * (threshold_percent as u128) / 100) as u64;
+    used.saturating_add(additional_bytes) < usage_limit
+}
+
+pub(crate) fn ensure_disk_capacity_for_write(
+    path: &Path,
+    threshold_percent: u8,
+    additional_bytes: u64,
+) -> Result<(), AppError> {
+    let probe_path = existing_disk_path(path);
+    let total = fs2::total_space(&probe_path).map_err(|error| {
+        AppError::new(
+            "disk_space_check_failed",
+            "Unable to inspect the target disk before downloading",
+        )
+        .with_details(error.to_string())
+    })?;
+    let available = fs2::available_space(&probe_path).map_err(|error| {
+        AppError::new(
+            "disk_space_check_failed",
+            "Unable to inspect the target disk before downloading",
+        )
+        .with_details(error.to_string())
+    })?;
+    if !disk_has_capacity(total, available, threshold_percent, additional_bytes) {
+        return Err(AppError::new(
+            "disk_space_insufficient",
+            "The target disk does not have enough space for this multipart download",
+        )
+        .with_details(format!(
+            "required additional bytes={additional_bytes}, available bytes={available}, usage limit={threshold_percent}%"
+        )));
+    }
+    Ok(())
+}
+
 pub(crate) fn normalized_list_page_size(max_keys: i32) -> i32 {
     max_keys.clamp(1, 1000)
 }
@@ -282,6 +338,30 @@ pub trait TosOperations: Send + Sync {
         concurrency: usize,
         multipart_threshold: u64,
         disk_usage_threshold_percent: u8,
+    ) -> Result<DownloadResult, AppError> {
+        self.download_with_progress(
+            bucket,
+            key,
+            path,
+            concurrency,
+            multipart_threshold,
+            disk_usage_threshold_percent,
+            Arc::new(|_, _| {}),
+        )
+        .await
+    }
+    /// Downloads an object while reporting downloaded and total bytes for the
+    /// current attempt.
+    #[allow(clippy::too_many_arguments)]
+    async fn download_with_progress(
+        &self,
+        bucket: &str,
+        key: &str,
+        path: &Path,
+        concurrency: usize,
+        multipart_threshold: u64,
+        disk_usage_threshold_percent: u8,
+        progress: Arc<dyn Fn(u64, u64) + Send + Sync>,
     ) -> Result<DownloadResult, AppError>;
     /// Reads a bounded byte range intended for text preview.
     async fn preview_text(
@@ -359,4 +439,25 @@ pub trait TosOperations: Send + Sync {
     async fn get_bucket_versioning(&self, bucket: &str) -> Result<Option<String>, AppError>;
     /// Enables or suspends bucket versioning.
     async fn set_bucket_versioning(&self, bucket: &str, enabled: bool) -> Result<(), AppError>;
+}
+
+#[cfg(test)]
+mod tests {
+    use super::{disk_has_capacity, multipart_download_additional_bytes};
+
+    #[test]
+    fn multipart_download_capacity_accounts_for_cache_and_reclaimable_assembly() {
+        assert_eq!(multipart_download_additional_bytes(100, 0, 0), 200);
+        assert_eq!(multipart_download_additional_bytes(100, 40, 0), 160);
+        assert_eq!(multipart_download_additional_bytes(100, 40, 25), 135);
+        assert_eq!(multipart_download_additional_bytes(100, 150, 150), 0);
+    }
+
+    #[test]
+    fn disk_capacity_keeps_usage_strictly_below_threshold() {
+        assert!(disk_has_capacity(1_000, 500, 90, 399));
+        assert!(!disk_has_capacity(1_000, 500, 90, 400));
+        assert!(!disk_has_capacity(1_000, 100, 90, 0));
+        assert!(disk_has_capacity(0, 0, 90, u64::MAX));
+    }
 }
