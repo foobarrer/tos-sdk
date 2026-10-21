@@ -5,7 +5,7 @@ requests signed with `TOS4-HMAC-SHA256`; it does not route storage operations
 through an AWS S3 client or S3-compatible endpoint.
 
 This reusable client was extracted from S3 Desktop. It is community-maintained
-and is not an official Volcengine SDK. Version `0.2.0-alpha.2` continues a measured
+and is not an official Volcengine SDK. Version `0.2.0-alpha.3` continues a measured
 compatibility track against the public Java SDK v2.9.19 surface. S3 Desktop has
 switched to a commit-pinned dependency from this public repository.
 
@@ -106,7 +106,12 @@ The project does not claim full Java parity while that command fails.
 
 - HTTPS with platform-native trust roots is the default.
 - Redirects are disabled so signed requests and credentials are not forwarded.
-- Native service hosts are derived from validated TOS region and bucket names.
+- The configured object-storage endpoint must be the native
+  `https://tos-<region>.volces.com` origin and must match the configured region.
+  S3-compatible `tos-s3-*` endpoints are rejected instead of being silently
+  reinterpreted.
+- Native bucket hosts are taken from discovery and fall back to the configured
+  native service endpoint when account-level discovery is unavailable.
 - Custom CA and proxy settings are explicit opt-ins.
 - Credential `Debug` output is redacted, and error diagnostics redact common
   credential markers.
@@ -155,6 +160,6 @@ cargo test --test live_scoped_prefix -- --ignored --nocapture
 ## Compatibility and licensing
 
 The crate requires Rust 1.94.1 or newer. Public API follows semantic versioning;
-the Java-parity work is currently `0.2.0-alpha.2`. It is licensed under
+the Java-parity work is currently `0.2.0-alpha.3`. It is licensed under
 AGPL-3.0-only, matching S3 Desktop. No database or configuration migration is
 required to adopt it.

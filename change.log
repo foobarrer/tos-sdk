@@ -36,3 +36,13 @@
 - Git: This record belongs to the pending implementation commit.
 - Tag/package: No tag or crates.io package; the public Git commit will be the immutable dependency identity.
 - Next: Push the verified SDK commit, pin S3 Desktop to that commit, update Cargo.lock, and verify the resolved dependency source.
+
+[2026-10-21T16:27:50+08:00] Native endpoint authority repair
+- User request: Correct every native TOS connection so the configured endpoint, SDK transport, UI, and persisted data consistently use the native TOS API instead of displaying an S3-compatible endpoint.
+- Completed: Made the configured `tos-<region>.volces.com` endpoint authoritative for account-level native requests; rejected `tos-s3-*` endpoints and endpoint/region mismatches; retained discovered cross-region bucket routing and native fallback hosts.
+- Existing-feature impact and user approval: The user explicitly approved changing native TOS endpoint semantics. Existing native signing, cross-region discovery, credential sources, bucket routes, operation models, and object data remain compatible. S3-compatible access remains available only through an S3-compatible application provider.
+- Tests and verification: Rustfmt passed; all-target default-feature tests passed (24 passed, 2 credential-gated tests ignored); Clippy with all targets/features and warnings denied passed; rustdoc with warnings denied passed.
+- Version: 0.2.0-alpha.2 -> 0.2.0-alpha.3.
+- Git: This record belongs to the completing SDK commit; S3 Desktop will pin that immutable revision.
+- Tag/package: No crates.io package or tag requested.
+- Next: Push the SDK commit, update S3 Desktop's pinned revision, migrate application profiles, and run read-only native TOS acceptance checks.

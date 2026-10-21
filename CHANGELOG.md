@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.0-alpha.3 - 2026-10-21
+
+- Make the configured native TOS endpoint authoritative for account-level
+  requests instead of using only its URL scheme and silently deriving a host.
+- Reject S3-compatible `tos-s3-*` endpoints and native endpoints that do not
+  match the configured region.
+- Preserve discovered per-bucket endpoints and native fallback routing while
+  adding protocol coverage for the configured service host.
+
 ## 0.2.0-alpha.2 - 2026-09-20
 
 - Add `Client::register_bucket_route` so least-privilege callers can provide a

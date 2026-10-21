@@ -49,6 +49,7 @@ struct TosBucketRoute {
 #[derive(Clone)]
 pub struct Client {
     profile: ConnectionProfile,
+    service_endpoint: Url,
     credentials: SecretBundle,
     client: HttpClient,
     routes: Arc<RwLock<HashMap<String, TosBucketRoute>>>,
@@ -184,6 +185,7 @@ impl Client {
         stored_secret: Option<SecretBundle>,
         request_statistics: Option<RequestStatisticsRecorder>,
     ) -> Result<Self, AppError> {
+        let service_endpoint = native_service_endpoint(&profile.endpoint, &profile.region)?;
         let credentials = resolve_credentials(&profile, stored_secret).await?;
         let mut builder = HttpClient::builder()
             .timeout(Duration::from_secs(profile.timeout_seconds.clamp(5, 600)))
@@ -222,6 +224,7 @@ impl Client {
         })?;
         Ok(Self {
             profile,
+            service_endpoint,
             credentials,
             client,
             routes: Arc::new(RwLock::new(HashMap::new())),
@@ -308,21 +311,19 @@ impl Client {
     }
 
     fn scheme(&self) -> &str {
-        Url::parse(&self.profile.endpoint)
-            .ok()
-            .map(|url| {
-                if url.scheme() == "http" {
-                    "http"
-                } else {
-                    "https"
-                }
-            })
-            .unwrap_or("https")
+        self.service_endpoint.scheme()
     }
 
     fn service_host(&self) -> Result<String, AppError> {
-        validate_tos_identifier(&self.profile.region, "TOS region")?;
-        Ok(format!("tos-{}.volces.com", self.profile.region))
+        self.service_endpoint
+            .host_str()
+            .map(ToString::to_string)
+            .ok_or_else(|| {
+                AppError::new(
+                    "invalid_tos_endpoint",
+                    "The native TOS endpoint must contain a host",
+                )
+            })
     }
 
     async fn bucket_route(&self, bucket: &str) -> Result<TosBucketRoute, AppError> {
@@ -1970,6 +1971,49 @@ fn validate_tos_host(host: &str) -> Result<(), AppError> {
     Ok(())
 }
 
+fn native_service_endpoint(value: &str, region: &str) -> Result<Url, AppError> {
+    validate_tos_identifier(region, "TOS region")?;
+    let endpoint = Url::parse(value).map_err(|_| {
+        AppError::new(
+            "invalid_tos_endpoint",
+            "The native TOS endpoint must be a valid absolute URL",
+        )
+    })?;
+    let host = endpoint.host_str().ok_or_else(|| {
+        AppError::new(
+            "invalid_tos_endpoint",
+            "The native TOS endpoint must contain a host",
+        )
+    })?;
+    if !matches!(endpoint.scheme(), "http" | "https")
+        || endpoint.username() != ""
+        || endpoint.password().is_some()
+        || endpoint.path() != "/"
+        || endpoint.query().is_some()
+        || endpoint.fragment().is_some()
+    {
+        return Err(AppError::new(
+            "invalid_tos_endpoint",
+            "The native TOS endpoint must be an HTTP(S) origin",
+        ));
+    }
+    if host.starts_with("tos-s3-") {
+        return Err(AppError::new(
+            "s3_compatible_endpoint_not_native",
+            "The configured endpoint is the TOS S3-compatible API; use a native tos-<region>.volces.com endpoint",
+        ));
+    }
+    let expected_host = format!("tos-{region}.volces.com");
+    if host != expected_host {
+        return Err(AppError::new(
+            "native_tos_endpoint_region_mismatch",
+            format!("The native TOS endpoint must match the configured region: {expected_host}"),
+        ));
+    }
+    validate_tos_host(host)?;
+    Ok(endpoint)
+}
+
 fn normalize_bucket_endpoint(
     bucket: &str,
     region: &str,
@@ -2397,6 +2441,55 @@ mod tests {
             .and(path(path_value))
             .and(header_exists("authorization"))
             .and(header_exists("x-tos-date"))
+    }
+
+    #[tokio::test]
+    async fn list_buckets_uses_the_configured_native_service_endpoint() {
+        let server = MockServer::start().await;
+        signed_get("/")
+            .and(header("host", "tos-cn-beijing.volces.com"))
+            .respond_with(ResponseTemplate::new(200).set_body_json(serde_json::json!({
+                "Buckets": []
+            })))
+            .expect(1)
+            .mount(&server)
+            .await;
+        let client = Client::new(
+            ConnectionProfile::new("cn-beijing"),
+            Some(credentials()),
+            None,
+        )
+        .await
+        .unwrap()
+        .with_transport_base_url(Url::parse(&server.uri()).unwrap());
+
+        assert!(client.list_buckets().await.unwrap().is_empty());
+    }
+
+    #[tokio::test]
+    async fn rejects_an_s3_compatible_endpoint_for_the_native_client() {
+        let mut profile = ConnectionProfile::new("cn-beijing");
+        profile.endpoint = "https://tos-s3-cn-beijing.volces.com".into();
+
+        let error = Client::new(profile, Some(credentials()), None)
+            .await
+            .err()
+            .unwrap();
+
+        assert_eq!(error.code, "s3_compatible_endpoint_not_native");
+    }
+
+    #[tokio::test]
+    async fn rejects_a_native_endpoint_that_does_not_match_the_region() {
+        let mut profile = ConnectionProfile::new("cn-beijing");
+        profile.endpoint = "https://tos-cn-shanghai.volces.com".into();
+
+        let error = Client::new(profile, Some(credentials()), None)
+            .await
+            .err()
+            .unwrap();
+
+        assert_eq!(error.code, "native_tos_endpoint_region_mismatch");
     }
 
     #[test]
